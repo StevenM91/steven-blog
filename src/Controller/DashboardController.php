@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,46 +34,48 @@ class DashboardController extends AbstractController
         ]);
     }
 
+
     /**
-     * @Route("admin/dashboard/remove/{id}", name="app_remove_user")
+     * @Route("/remove/user/{id}", name="app_remove_user")
      */
-    // public function deleteUser($id)
-    // {
-    //     $singleUser = $this->manager->getRepository(User::class)->findBy(['id' => $id]);
+    public function deleteUser($id): Response
+    {
+        $deleteUsers = $this->manager->getRepository(User::class)->findBy(['id' => $id]);
 
-    //     $this->manager->remove($singleUser[0]);
-    //     $this->manager->flush();
+        $this->manager->remove($deleteUsers[0]);
+        $this->manager->flush();
 
-    //     return $this->redirectToRoute('app_dashboard');
-    // }
-
-
-    // public function updateArticle(Request $request, $id)
-    // {
-
-    //     // Je récupere dans la bdd 1 article grâce à l'id
-    //     $singleUser = $this->manager->getRepository(Article::class)->findBy(['id' => $id]);
+        return $this->redirectToRoute('app_dashboard');
+    }
 
 
-    //     $form = $this->createForm(RegisterType::class, $singleUser[0]);
-    //     $form->handleRequest($request);
+    /**
+     * @Route("/update/user/{id}", name="app_update_user")
+     */
+    public function updateUser(Request $request, $id): Response
+    {
 
 
-    //     // Si le formulaire et soumis et en meme temp valide alors j'envoi les modification en bdd
-    //     if ($form->isSubmitted() && $form->isValid()) {
-
-
-    //         $this->manager->persist($singleUser[0]);
-    //         $this->manager->flush();
-
-    //         return $this->redirectToRoute('app_home');
-    //     }
+        $updateUser = $this->manager->getRepository(User::class)->findBy(['id' => $id]);
 
 
 
-    //     return $this->render('article/update.html.twig', [
-    //         'form' => $form->createView(),
-    //         'singleArticle' => $singleArticle[0]
-    //     ]);
-    // }
+        $form = $this->createForm(RegisterType::class, $updateUser[0]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+
+
+            $this->manager->persist($updateUser[0]);
+            $this->manager->flush();
+
+            return $this->redirectToRoute('app_dashboard');
+        }
+        return $this->render('dashboard/update.html.twig', [
+            'form' => $form->createView(),
+            'updateUser' => $updateUser[0]
+        ]);
+    }
 }

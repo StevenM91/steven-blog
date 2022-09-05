@@ -31,17 +31,30 @@
       <tbody>
         {% for user in users %}
           <tr>
-            <th scope="row">1</th>
+            <th scope="row">{{ user.id }}</th>
             <td>{{ user.lastname }}</td>
             <td>{{ user.firstname }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.createdAt|date('d-m-y') }}</td>
             <td>
-              {# {% if app.user and app.user.fullname == singleUser.id %} #}
-              <a class="btn btn-danger m-2" href="{{ path('app_remove_user') }}" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</a> | <a class="btn btn-warning m-2" href="">Modifier</a>
-              {# {% endif %} #}
+              <a class="btn btn-danger m-2" href="{{ path('app_remove_user', { id: user.id }) }}">Supprimer</a> | <a class="btn btn-warning m-2" href="{{ path('app_update_user', { id: user.id }) }}">Modifier</a>
             </td>
           </tr>
+          {# <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Suppression d'utilisateur</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Voulez-vous supprimer {{ user.lastname }} {{ user.firstname }}</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                  <a href="{{ path('app_remove_user', { id: user.id }) }}" type="button" class="btn btn-primary">Oui</a>
+                </div>
+              </div>
+            </div>
+          </div> #}
         {% endfor %}
       </tbody>
     </table>
