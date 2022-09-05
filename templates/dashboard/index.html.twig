@@ -37,9 +37,9 @@
             <td>{{ user.email }}</td>
             <td>{{ user.createdAt|date('d-m-y') }}</td>
             <td>
-              {% if app.user and app.user.fullname == singleUser.fullname %}
-                <a class="btn btn-danger m-2" href="{{ path('app_remove_user', { id: singleUser.id }) }}">Supprimer</a> | <a class="btn btn-warning m-2" href="">Modifier</a>
-              {% endif %}
+              {# {% if app.user and app.user.fullname == singleUser.id %} #}
+              <a class="btn btn-danger m-2" href="{{ path('app_remove_user') }}" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</a> | <a class="btn btn-warning m-2" href="">Modifier</a>
+              {# {% endif %} #}
             </td>
           </tr>
         {% endfor %}
