@@ -21,6 +21,10 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
+        // if ($this->isGranted('ROLE_ADMIN')) {
+        //     return $this->redirectToRoute("app_redirect");
+        // }
+
         $infoUser = $this->manager->getRepository(User::class)->findAll();
 
 
