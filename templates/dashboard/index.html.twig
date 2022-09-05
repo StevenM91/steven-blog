@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Dashboard
+{% endblock %}
+
+{% block body %}
+  <section>
+    <h1 class="text-center text-muted">Bienvenue <strong class="text-dark">{{ app.user.lastname }} {{ app.user.firstname }}</strong></h1><br />
+    <h5 class="text-center text-muted">Vous êtes administrateur</h5>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">email</th>
+          <th scope="col">date d'inscription</th>
+          <th scope="col">Roles</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <th scope="row">{{ user.id }}</th>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.firstname }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.createdAt|date('d-m-y') }}</td>
+            {# <td>{{user.roles}}</td> #}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

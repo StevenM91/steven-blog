@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Profil
+{% endblock %}
+
+{% block body %}
+  <section>
+    <h1 class="text-center text-muted">Bienvenue <strong class="text-dark">{{ app.user.lastname }} {{ app.user.firstname }}</strong></h1>
+
+    <div class="m-5">
+      <a href="{{ path('app_article') }}">Ajouter un article</a><br />
+      <a href="#">Voir tout mes articles</a><br />
+      <a href="#">Editer mes informations</a>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Accueil
+{% endblock %}
+
+{% block body %}
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="text-center text-muted">Bienvenue sur mon super blog !</h1>
+      <p class="lead text-muted">Retrouver toutes l'actu du moment en avant premiere !</p>
+      <p>
+        <a href="#" class="btn btn-primary my-2">Tous les articles</a>
+        <a href="#" class="btn btn-secondary my-2">Les nouveautés</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2>Les dernieres article</h2>
+    <div class="row">
+      {% for article in articles %}
+        <div class="card m-2 img-article" style="width: 18rem;">
+          <img src="{{ asset('uploads/brochures/' ~ article.picture) }}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <p class="card-text">{{ article.description }}</p>
+            <p class="card-text">{{ article.content }}</p>
+            <a href="{{ path('app_single_article', { id: article.id }) }}" class="btn btn-primary">voir</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
