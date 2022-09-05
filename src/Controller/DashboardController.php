@@ -17,10 +17,11 @@ class DashboardController extends AbstractController
     }
 
     /**
-     * @Route("/admin/dashboard", name="app_dashboard")
+     * @Route("/user/dashboard", name="app_dashboard")
      */
     public function index(): Response
     {
+
 
         $infoUser = $this->manager->getRepository(User::class)->findAll();
 
