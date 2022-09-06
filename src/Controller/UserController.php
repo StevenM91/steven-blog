@@ -55,8 +55,6 @@ class UserController extends AbstractController
                 $singleUser[0]->setPassword($singleUser[0]->getPassword());
             }
 
-            // $passwordEncod = $this->passwordHash->hashPassword($singleUser[0], $singleUser[0]->getPassword());
-            // $singleUser[0]->setPassword($passwordEncod);
 
             $this->manager->persist($singleUser[0]);
             $this->manager->flush();
