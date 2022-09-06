@@ -18,7 +18,7 @@ class RegisterType extends AbstractType
         // on garde juste ce que l'utilisateur a le droit de voir
         $builder
             ->add('email', EmailType::class, ['label' => false, 'attr' => ['placeholder' => 'entrez votre mail']]) // EmailType ::class est une classe qui permet de matérialisé un champ de type Email
-            ->add('password', PasswordType::class, ['label' => false, 'attr' => ['placeholder' => 'entrez votre mot de passe']]) // PasswordType::class est une classe qui permet de matérialisé un champ de type password
+            ->add('password', PasswordType::class, ['label' => false, 'attr' => ['placeholder' => 'entrez votre mot de passe'], 'mapped' => false]) // PasswordType::class est une classe qui permet de matérialisé un champ de type password
             ->add('lastname', TextType::class, ['label' => false, 'attr' => ['placeholder' => 'Nom']]) // TextType:class est une classe qui permet de materialisé un champ de type text
             ->add('firstname', TextType::class, ['label' => false, 'attr' => ['placeholder' => 'Prénom']])
             ->add('avatar', TextType::class)

@@ -48,9 +48,15 @@ class UserController extends AbstractController
         // Si le formulaire et soumis et en meme temp valide alors j envoi les modification en bdd
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $passwordEncod = $this->passwordHash->hashPassword($singleUser[0], $singleUser[0]->getPassword());
+            // Si j'essaie de modifier les informations d'un autre utilisateur que moi même alors que je récupérer son mot de passe hasher en bdd et je le reinjecte dans le meme champs
+            if ($this->getUser()->getId() == $singleUser[0]->getId()) {
+                $singleUser[0]->setPassword($this->passwordHash->hashPassword($singleUser[0], $singleUser[0]->getPassword()));
+            } else {
+                $singleUser[0]->setPassword($singleUser[0]->getPassword());
+            }
 
-            $singleUser[0]->setPassword($passwordEncod);
+            // $passwordEncod = $this->passwordHash->hashPassword($singleUser[0], $singleUser[0]->getPassword());
+            // $singleUser[0]->setPassword($passwordEncod);
 
             $this->manager->persist($singleUser[0]);
             $this->manager->flush();
