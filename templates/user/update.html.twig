@@ -13,7 +13,7 @@
       {{ form_row(form.lastname) }}
       {{ form_row(form.firstname) }}
       {{ form_row(form.email) }}
-      {% if is_granted('ROLE_USER') %}
+      {% if is_granted('ROLE_ADMIN') == false %}
         {{ form_row(form.password) }}
       {% endif %}
       {{ form_row(form.avatar) }}

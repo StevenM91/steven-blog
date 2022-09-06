@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,51 +30,6 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard/index.html.twig', [
             "users" => $infoUser,
-        ]);
-    }
-
-
-    /**
-     * @Route("/remove/user/{id}", name="app_remove_user")
-     */
-    public function deleteUser($id): Response
-    {
-        $deleteUsers = $this->manager->getRepository(User::class)->findBy(['id' => $id]);
-
-        $this->manager->remove($deleteUsers[0]);
-        $this->manager->flush();
-
-        return $this->redirectToRoute('app_dashboard');
-    }
-
-
-    /**
-     * @Route("/update/user/{id}", name="app_update_user")
-     */
-    public function updateUser(Request $request, $id): Response
-    {
-
-
-        $updateUser = $this->manager->getRepository(User::class)->findBy(['id' => $id]);
-
-
-
-        $form = $this->createForm(RegisterType::class, $updateUser[0]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-
-
-            $this->manager->persist($updateUser[0]);
-            $this->manager->flush();
-
-            return $this->redirectToRoute('app_dashboard');
-        }
-        return $this->render('dashboard/update.html.twig', [
-            'form' => $form->createView(),
-            'updateUser' => $updateUser[0]
         ]);
     }
 }
