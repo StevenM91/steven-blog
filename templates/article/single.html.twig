@@ -14,7 +14,7 @@
         <article class="container">
           {{ singleArticle.content }}
           <br />
-          <cite>Auteur : {{ singleArticle.author }} publié le {{ singleArticle.publishedAt|date('d-m-y') }}</cite>
+          <cite>Auteur : {{ singleArticle.author.fullname }} publié le {{ singleArticle.publishedAt|date('d-m-y') }}</cite>
           {# permet de dire que même si l'utilisateur n'est pas connecter il peut quand même voir l'article et aussi que seul l'author pourra supprimer l'article #}
           {% if app.user and app.user.fullname == singleArticle.author %}
             <a href="{{ path('app_remove_article', { id: singleArticle.id }) }}" class="btn btn-danger">Supprimer</a> |

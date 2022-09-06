@@ -35,7 +35,8 @@ class RegisterType extends AbstractType
                 'second_options' => [
                     'label' => 'Confirmez votre mot de passe',
                     'attr' => ['placeholder' => 'Confirmez votre mot de passe']
-                ]
+                ],
+                'mapped' => false
             ]) // PasswordType::class est une classe qui permet de matérialisé un champ de type password
             // RepeatedType::class est une classe qui permet de matérialisé un champ de type password
             ->add('lastname', TextType::class, ['label' => false, 'attr' => ['placeholder' => 'Nom']]) // TextType:class est une classe qui permet de materialisé un champ de type text

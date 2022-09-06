@@ -27,6 +27,16 @@ class Comment
      */
     private $publishedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="comments")
+     */
+    private $article;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +62,30 @@ class Comment
     public function setPublishedAt(\DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getArticle(): ?Article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }

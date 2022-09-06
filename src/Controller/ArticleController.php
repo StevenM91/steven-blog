@@ -35,7 +35,7 @@ class ArticleController extends AbstractController
         if ($newArticle->isSubmitted() && $newArticle->isValid()) {
 
             $article->setPublishedAt(new \DateTime);
-            $article->setAuthor($this->getUser()->getFullname());
+            $article->setAuthor($this->getUser());
 
             // Upload d'image
 

@@ -11,13 +11,13 @@
         {{ form_row(form.firstname) }}
         {{ form_row(form.lastname) }}
         {{ form_row(form.email) }}
-        {{ form_row(form.avatar) }}
         {% if app.user and app.user.email == singleUser.email %}
-        {{ form_row(form.password) }}
+        {{ form_row(form.password.first) }}
+        {{ form_row(form.password.second) }}
         {% else %}
-                {{form_row(form.password,{'attr': {'disabled': 'true'}})}}
+        {{ form_row(form.password.first,{'attr': {'disabled': 'true'}}) }}
+        {{ form_row(form.password.second,{'attr': {'disabled': 'true'}}) }}
         {% endif %}
-         {{ form_row(form.Inscription) }}
     {{ form_end(form) }}
 </div>
 
