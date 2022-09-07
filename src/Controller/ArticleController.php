@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Form\ArticleType;
+use App\Form\CommentType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,17 +85,39 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/single/{id}", name="app_single_article")
      */
-    public function viewArticle(Article $article): Response
+    public function viewArticle(Article $article, Request $request, $id): Response
     {
         // cette fonction va permettre de crée une view quand on clique sur la card cela nous perettra d'être rediriger vers une pages
 
         // $singleArticle = $this->manager->getRepository(Article::class)->findBy(['id' => $id]);
         // On récupere l'article qui a l'id qui correspond à l'id de l'url
+        $newComment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class, $newComment);
+
+
+        $formComment->handleRequest($request);
+
+        if ($formComment->isSubmitted() && $formComment->isValid()) {
+            $newComment->setPublishedAt(new \DateTime);
+            $newComment->setArticle($article);
+            $newComment->setUser($this->getUser());
+
+            $this->manager->persist($newComment);
+            $this->manager->flush();
+            return $this->redirectToRoute('app_single_article', ['id' => $id]);
+        }
+
+
+
+        // Ajouter un nouveau commentaire en relation avec l'article et l'utilisateur connecte
 
 
         return $this->render('article/single.html.twig', [
             // "singleArticle" => $singleArticle[0],
             "singleArticle" => $article,
+            "formComment" => $formComment->createView(),
+
         ]);
     }
 
