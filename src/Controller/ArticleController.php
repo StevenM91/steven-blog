@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\ArticleType;
 use App\Form\CommentType;
-use DateTime;
+use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ArticleController extends AbstractController
 {
@@ -29,10 +31,13 @@ class ArticleController extends AbstractController
     public function newArticle(Request $request, SluggerInterface $slugger): Response
     {
         $article = new Article();
+        $notification = new Notification();
 
         $newArticle = $this->createForm(ArticleType::class, $article);
 
         $newArticle->handleRequest($request);
+
+
 
         if ($newArticle->isSubmitted() && $newArticle->isValid()) {
 
@@ -63,11 +68,24 @@ class ArticleController extends AbstractController
                 $article->setPicture($newFilename);
             }
 
+            // nouvelle notification pour l'auteur disant "Votre article a était publier"
+            $notification->setUser($this->getUser());
+            $notification->setCreatedAt(new \DateTime);
+            $notification->setMessage("Felicitation ! Votre article vient d'être publier");
 
 
+            $admins = $this->manager->getRepository(User::class)->findByRole("ROLE_ADMIN"); // récupération des admin via la méthode findByRole() des UserRepository que l'on à crée
+
+            //ENVOYER LES NOTIFICATION UNIQUEMENT AUX ADMIN
+            foreach ($admins as $admin) {
+                // On boucle sur les admins pour leur envoyer une notification
+                $notification->setUser($admin);
+                $notification->setCreatedAt(new \DateTime);
+                $notification->setMessage("chere administrateur, un article vient d'être publier");
+            }
 
 
-
+            $this->manager->persist($notification);
             $this->manager->persist($article);
             $this->manager->flush();
             return $this->redirectToRoute('app_home');
